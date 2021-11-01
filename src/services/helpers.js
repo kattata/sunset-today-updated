@@ -1,6 +1,8 @@
-export const getRemainingTime = (sunsetTime, now) => {
-  // const sunsetTimestamp = new Date(sunsetTime).getTime();
-  const nowTimestamp = new Date().getTime();
+import { getCurrentTime } from "./fetchData";
+
+export const getRemainingTime = async (sunsetTime, location) => {
+  const current = await getCurrentTime(location);
+  const now = new Date(`${current[0]} ${current[1]}`).getTime();
   const distance = sunsetTime - now;
 
   if (distance < 0) {
@@ -11,11 +13,15 @@ export const getRemainingTime = (sunsetTime, now) => {
     };
   }
 
-  return {
+  const countdown = {
     hours: getHours(distance),
     minutes: getMinutes(distance),
     seconds: getSeconds(distance),
   };
+
+  console.log(countdown);
+
+  return countdown;
 };
 
 const getSeconds = (distance) => {
