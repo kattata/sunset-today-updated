@@ -11,6 +11,7 @@ const defaultRemainingTime = {
 
 const Home = () => {
   const [location, setLocation] = useState("");
+  const [country, setCountry] = useState("");
   const [sunsetTime, setSunsetTime] = useState(null);
   const [now, setNow] = useState(null);
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
@@ -26,7 +27,12 @@ const Home = () => {
   });
 
   const updateRemainingTime = async () => {
-    const countdown = await getRemainingTime(sunsetTime, location);
+    const countdown = await getRemainingTime(
+      1635841800000,
+      "Sydney",
+      "Australia"
+    );
+    // const countdown = await getRemainingTime(sunsetTime, location, country);
     setRemainingTime(countdown);
   };
 
@@ -44,7 +50,8 @@ const Home = () => {
     const sunset = new Date(`${today} ${set[1]}`).getTime();
     console.log(now);
     setSunsetTime(sunset);
-    setNow(now);
+    setCountry(set[2]);
+    console.log(country);
   };
 
   return (
