@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { getRemainingTime } from "../../services/helpers";
+import { getLocationInfo, getSunsetTime } from "../../services/fetchData";
 
 const defaultRemainingTime = {
   hours: "00",
@@ -18,6 +19,15 @@ const Home = () => {
   const [sunsetTime, setSunsetTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
 
+  useEffect(() => {
+    // if (sunsetTime) {
+    //   let idk = sunsetTime.toLocaleString();
+    //   console.log(idk);
+    // }
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log(timezone);
+  }, []);
+
   // Countdown
   // Try moment.js for converting timezone
   useEffect(() => {
@@ -31,35 +41,7 @@ const Home = () => {
     setRemainingTime(getRemainingTime(sunsetTime));
   };
 
-  // Location IQ API
-  const locationIQAccessToken = "pk.fe0e6ba8a0f9d8ab93e5520ca08ba9dd";
-
-  const getCoordinates = async () => {
-    const url = `https://us1.locationiq.com/v1/search.php?key=${locationIQAccessToken}&q=${location}&format=json&limit=1`;
-    try {
-      const response = await axios.get(url);
-      const item = response.data[0];
-      setLocationInfo({
-        lat: item.lat,
-        long: item.lon,
-        name: item.display_name,
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   // Sunrise Sunset API
-  const getSunsetTime = async () => {
-    const url = `https://api.sunrise-sunset.org/json?lat=${locationInfo.lat}&lng=${locationInfo.long}&formatted=0`;
-    try {
-      const response = await axios.get(url);
-      const item = response.data.results.sunset;
-      setSunsetTime(item);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   // Update input field
   const handleChange = (e) => {
@@ -69,8 +51,17 @@ const Home = () => {
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await getCoordinates();
-    await getSunsetTime();
+
+    // fetch data from Location IQ API - fetchData.js
+    const fetchedLocationInfo = await getLocationInfo(location);
+    setLocationInfo(fetchedLocationInfo);
+
+    // fetch data from Sunrise Sunset API - fetchData.js
+    const fetchedSunsetTime = await getSunsetTime(
+      locationInfo.lat,
+      locationInfo.long
+    );
+    setSunsetTime(fetchedSunsetTime);
   };
 
   return (
