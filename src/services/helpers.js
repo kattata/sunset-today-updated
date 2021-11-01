@@ -1,7 +1,7 @@
-export const getRemainingTime = (sunsetTime) => {
-  const sunsetTimestamp = new Date(sunsetTime).getTime();
+export const getRemainingTime = (sunsetTime, now) => {
+  // const sunsetTimestamp = new Date(sunsetTime).getTime();
   const nowTimestamp = new Date().getTime();
-  const distance = sunsetTimestamp - nowTimestamp;
+  const distance = sunsetTime - now;
 
   if (distance < 0) {
     return {
