@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// VARIABLES
+$coral: #ff8967;
+$red: #fd6051;
+
+// FONTS
+@font-face {
+  font-family: "Chromate";
+  src: url("../assets/Chromate-Regular.otf") format("opentype");
+}
+
+@font-face {
+  font-family: "Questrial";
+  src: url("../assets/Questrial-Regular.ttf") format("truetype");
+}
+
+h1 {
+  font-family: "Chromate";
+  font-size: 144px;
+}
+
+h2 {
+  font-family: "Questrial";
+  font-size: 18px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+p {
+  font-family: "Questrial";
+  font-size: 16px;
+  text-transform: uppercase;
+}
