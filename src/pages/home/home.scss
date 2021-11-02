@@ -1,0 +1,68 @@
+.home {
+  .search-container {
+    width: max-content;
+    margin: 50px auto;
+    text-align: center;
+    position: relative;
+    z-index: 100;
+  }
+
+  h1 {
+    margin: auto;
+    color: white;
+    width: fit-content;
+  }
+
+  p {
+    width: 500px;
+    margin: 20px auto;
+    color: white;
+  }
+
+  .location-form {
+    margin: 30px auto;
+    width: 500px;
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid white;
+    text-align: center;
+    font-family: "Questrial";
+    font-size: 14px;
+    text-transform: uppercase;
+    padding: 5px;
+    background-color: transparent;
+
+    &:focus {
+      outline: 1px solid white;
+      &::placeholder {
+        color: white;
+      }
+    }
+
+    &:focus-visible {
+      outline: none;
+      &::placeholder {
+        color: white;
+      }
+    }
+
+    &:active {
+      outline: none;
+
+      &::placeholder {
+        color: white;
+      }
+    }
+
+    &:valid {
+      color: white;
+    }
+
+    &::placeholder {
+      color: white;
+    }
+  }
+}

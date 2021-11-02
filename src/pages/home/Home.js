@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { getRemainingTime } from "../../services/helpers";
-import { getSunsetTime } from "../../services/fetchData";
+import {
+  getBackgroundImg,
+  getSunsetTime,
+  getTimeZone,
+} from "../../services/fetchData";
 import moment from "moment";
+import "./home.scss";
 
 const defaultRemainingTime = {
   hours: "00",
@@ -11,29 +16,36 @@ const defaultRemainingTime = {
 
 const Home = () => {
   const [location, setLocation] = useState("");
-  const [country, setCountry] = useState("");
   const [sunsetTime, setSunsetTime] = useState(null);
-  const [now, setNow] = useState(null);
+  const [coordinates, setCoordinates] = useState({
+    lat: null,
+    long: null,
+  });
+  const [timezone, setTimezone] = useState(null);
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
 
   var moment = require("moment-timezone");
 
-  // Countdown
+  // Countdown;
   useEffect(() => {
-    const interval = setInterval(() => {
-      updateRemainingTime();
-    }, 1000);
-    return () => clearInterval(interval);
+    if (sunsetTime !== null) {
+      const interval = setInterval(() => {
+        updateRemainingTime();
+      }, 1000);
+      return () => clearInterval(interval);
+    }
   });
 
   const updateRemainingTime = async () => {
-    const countdown = await getRemainingTime(
-      1635841800000,
-      "Sydney",
-      "Australia"
-    );
-    // const countdown = await getRemainingTime(sunsetTime, location, country);
-    setRemainingTime(countdown);
+    // const countdown = await getRemainingTime(1635883200000, timezone);
+    if (coordinates) {
+      const countdown = await getRemainingTime(
+        sunsetTime,
+        "-33.8548157",
+        "151.2164539"
+      );
+      setRemainingTime(countdown);
+    }
   };
 
   // Update input field
@@ -45,27 +57,52 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const set = await getSunsetTime(location);
-    const today = moment(set[0]).format("YYYY-MM-DD");
-    const sunset = new Date(`${today} ${set[1]}`).getTime();
-    console.log(now);
+    const data = await getSunsetTime(location);
+    const lat = data.lat;
+    const long = data.long;
+
+    setCoordinates(lat, long);
+    const zone = await getTimeZone(lat, long);
+    setTimezone(zone);
+
+    const today = moment(data.date).format("YYYY-MM-DD");
+    const sunset = new Date(`${today} ${data.sunset}`).getTime();
     setSunsetTime(sunset);
-    setCountry(set[2]);
-    console.log(country);
+
+    // await getBackgroundImg();
   };
 
   return (
     <section className="home">
-      <form onSubmit={handleSubmit}>
-        <input type="text" onChange={handleChange} />
-      </form>
-      <h1>Sunset in {location}</h1>
-      {remainingTime && (
-        <p>
-          {remainingTime.hours}:{remainingTime.minutes}:{remainingTime.seconds}
-        </p>
-      )}
-      <h2>At {sunsetTime}</h2>
+      <div className="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <div className="search-container">
+          <h1>Sunset Today</h1>
+          <p>
+            If you're keen on watching the sunset today, search for your (or
+            any!) city and see how much time is left until that beautiful moment
+          </p>
+          <form onSubmit={handleSubmit} className="location-form">
+            <input
+              type="text"
+              onChange={handleChange}
+              placeholder="Type in a city and press Enter"
+            />
+          </form>
+          <p>Sunset in {location}</p>
+          {remainingTime && (
+            <p>
+              {remainingTime.hours}:{remainingTime.minutes}:
+              {remainingTime.seconds}
+            </p>
+          )}
+          <p>At {sunsetTime}</p>
+        </div>
+      </div>
     </section>
   );
 };

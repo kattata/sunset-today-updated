@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Location from "./pages/location/Location";
+import "./styles/main.scss";
 
 function App() {
   return (

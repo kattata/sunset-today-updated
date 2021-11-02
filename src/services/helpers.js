@@ -1,7 +1,7 @@
-import { getCurrentTime } from "./fetchData";
+import { getTimeZone } from "./fetchData";
 
-export const getRemainingTime = async (sunsetTime, location, country) => {
-  const current = await getCurrentTime(location, country);
+export const getRemainingTime = async (sunsetTime, lat, long) => {
+  const current = await getTimeZone(lat, long);
   const now = new Date(`${current}`).getTime();
   const distance = sunsetTime - now;
 
