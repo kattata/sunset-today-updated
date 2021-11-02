@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { getRemainingTime } from "../../services/helpers";
+import { getRemainingTime, passCoordinates } from "../../services/helpers";
 import {
   getBackgroundImg,
   getSunsetTime,
   getLocalTime,
 } from "../../services/fetchData";
-import moment from "moment";
 import "./home.scss";
 
 const defaultRemainingTime = {
@@ -21,8 +20,8 @@ const Home = () => {
     sunsetTime: null,
   });
   const [coordinates, setCoordinates] = useState({
-    lat: null,
-    long: null,
+    lat: "",
+    long: "",
   });
   const [localTime, setLocalTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
@@ -38,16 +37,18 @@ const Home = () => {
   });
 
   const updateRemainingTime = async () => {
-    // const countdown = await getRemainingTime(1635883200000, LocalTime);
-    if (coordinates) {
-      const countdown = await getRemainingTime(
-        sunsetTime.sunsetDate,
-        sunsetTime.sunsetTime,
-        "-33.8548157",
-        "151.2164539"
-      );
-      setRemainingTime(countdown);
-    }
+    const countdown = await getRemainingTime(
+      sunsetTime.sunsetDate,
+      sunsetTime.sunsetTime
+    );
+
+    // const countdown = await getRemainingTime(
+    //   sunsetTime.sunsetDate,
+    //   sunsetTime.sunsetTime,
+    //   "-33.8548157",
+    //   "151.2164539"
+    // );
+    setRemainingTime(countdown);
   };
 
   // Update input field
@@ -70,7 +71,9 @@ const Home = () => {
     const lat = data.lat;
     const long = data.long;
 
-    setCoordinates(lat, long);
+    passCoordinates(lat, long);
+
+    setCoordinates(data.lat, data.long);
 
     // Get data from Timezone DB - local time of the selected city
     const localTime = await getLocalTime(lat, long);
