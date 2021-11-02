@@ -1,9 +1,17 @@
-import { getTimeZone } from "./fetchData";
+import { getLocalTime } from "./fetchData";
+import moment from "moment";
 
-export const getRemainingTime = async (sunsetTime, lat, long) => {
-  const current = await getTimeZone(lat, long);
-  const now = new Date(`${current}`).getTime();
-  const distance = sunsetTime - now;
+export const getRemainingTime = async (today, sunset, lat, long) => {
+  // In order to get reliable remaining time no matter where you check, I needed to create an independent system
+  // Date of sunset in miliseconds
+  const todayMs = convertTodayToMS(today);
+
+  // Date of sunset in miliseconds
+  const sunsetMs = convertSunsetToMS(todayMs, sunset);
+
+  // Current time in the local timezone in miliseconds
+  const localNow = await convertLocalTimeToMS(lat, long);
+  const distance = sunsetMs - localNow;
 
   if (distance < 0) {
     return {
@@ -20,6 +28,22 @@ export const getRemainingTime = async (sunsetTime, lat, long) => {
   };
 
   return countdown;
+};
+
+const convertTodayToMS = (date) => {
+  const todayMs = moment(date).format("YYYY-MM-DD");
+  return todayMs;
+};
+
+const convertSunsetToMS = (today, sunset) => {
+  const sunsetMs = new Date(`${today} ${sunset}`).getTime();
+  return sunsetMs;
+};
+
+const convertLocalTimeToMS = async (lat, long) => {
+  const current = await getLocalTime(lat, long);
+  const now = new Date(`${current}`).getTime();
+  return now;
 };
 
 const getSeconds = (distance) => {

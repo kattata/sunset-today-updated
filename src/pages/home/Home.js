@@ -3,7 +3,7 @@ import { getRemainingTime } from "../../services/helpers";
 import {
   getBackgroundImg,
   getSunsetTime,
-  getTimeZone,
+  getLocalTime,
 } from "../../services/fetchData";
 import moment from "moment";
 import "./home.scss";
@@ -16,19 +16,20 @@ const defaultRemainingTime = {
 
 const Home = () => {
   const [location, setLocation] = useState("");
-  const [sunsetTime, setSunsetTime] = useState(null);
+  const [sunsetTime, setSunsetTime] = useState({
+    sunsetDate: null,
+    sunsetTime: null,
+  });
   const [coordinates, setCoordinates] = useState({
     lat: null,
     long: null,
   });
-  const [timezone, setTimezone] = useState(null);
+  const [localTime, setLocalTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
-
-  var moment = require("moment-timezone");
 
   // Countdown;
   useEffect(() => {
-    if (sunsetTime !== null) {
+    if (sunsetTime.sunsetTime !== null) {
       const interval = setInterval(() => {
         updateRemainingTime();
       }, 1000);
@@ -37,10 +38,11 @@ const Home = () => {
   });
 
   const updateRemainingTime = async () => {
-    // const countdown = await getRemainingTime(1635883200000, timezone);
+    // const countdown = await getRemainingTime(1635883200000, LocalTime);
     if (coordinates) {
       const countdown = await getRemainingTime(
-        sunsetTime,
+        sunsetTime.sunsetDate,
+        sunsetTime.sunsetTime,
         "-33.8548157",
         "151.2164539"
       );
@@ -57,17 +59,22 @@ const Home = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Get data from IPGElocation - sunset date and time + latitude and longitude
     const data = await getSunsetTime(location);
+
+    setSunsetTime({
+      sunsetDate: data.date,
+      sunsetTime: data.sunset,
+    });
+
     const lat = data.lat;
     const long = data.long;
 
     setCoordinates(lat, long);
-    const zone = await getTimeZone(lat, long);
-    setTimezone(zone);
 
-    const today = moment(data.date).format("YYYY-MM-DD");
-    const sunset = new Date(`${today} ${data.sunset}`).getTime();
-    setSunsetTime(sunset);
+    // Get data from Timezone DB - local time of the selected city
+    const localTime = await getLocalTime(lat, long);
+    setLocalTime(localTime);
 
     // await getBackgroundImg();
   };
@@ -100,7 +107,7 @@ const Home = () => {
               {remainingTime.seconds}
             </p>
           )}
-          <p>At {sunsetTime}</p>
+          <p>At {sunsetTime.sunsetTime} local time</p>
         </div>
       </div>
     </section>
