@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { getRemainingTime, passCoordinates } from "../../services/helpers";
-import {
-  getBackgroundImg,
-  getSunsetTime,
-  getLocalTime,
-} from "../../services/fetchData";
+import { getSunsetTime, getLocalTime } from "../../services/fetchData";
 import "./home.scss";
 
 const defaultRemainingTime = {
@@ -13,54 +10,53 @@ const defaultRemainingTime = {
   seconds: "00",
 };
 
-const Home = () => {
-  const [location, setLocation] = useState("");
-  const [sunsetTime, setSunsetTime] = useState({
-    sunsetDate: null,
-    sunsetTime: null,
-  });
-  const [coordinates, setCoordinates] = useState({
-    lat: "",
-    long: "",
-  });
-  const [localTime, setLocalTime] = useState(null);
-  const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
+const Home = ({
+  handleChange,
+  location,
+  remainingTime,
+  sunsetTime,
+  localTime,
+  setLocalTime,
+  setSunsetTime,
+}) => {
+  const history = useHistory();
+  // const [location, setLocation] = useState("");
+  // const [sunsetTime, setSunsetTime] = useState({
+  //   sunsetDate: null,
+  //   sunsetTime: null,
+  // });
+  // const [localTime, setLocalTime] = useState(null);
+  // const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
 
-  // Countdown;
-  useEffect(() => {
-    if (sunsetTime.sunsetTime !== null) {
-      const interval = setInterval(() => {
-        updateRemainingTime();
-      }, 1000);
-      return () => clearInterval(interval);
-    }
-  });
+  // // Countdown;
+  // useEffect(() => {
+  //   if (sunsetTime.sunsetTime !== null) {
+  //     const interval = setInterval(() => {
+  //       updateRemainingTime();
+  //     }, 1000);
+  //     return () => clearInterval(interval);
+  //   }
+  // });
 
-  const updateRemainingTime = async () => {
-    const countdown = await getRemainingTime(
-      sunsetTime.sunsetDate,
-      sunsetTime.sunsetTime
-    );
+  // const updateRemainingTime = async () => {
+  //   const countdown = await getRemainingTime(
+  //     sunsetTime.sunsetDate,
+  //     sunsetTime.sunsetTime
+  //   );
 
-    // const countdown = await getRemainingTime(
-    //   sunsetTime.sunsetDate,
-    //   sunsetTime.sunsetTime,
-    //   "-33.8548157",
-    //   "151.2164539"
-    // );
-    setRemainingTime(countdown);
-  };
+  //   setRemainingTime(countdown);
+  // };
 
-  // Update input field
-  const handleChange = (e) => {
-    setLocation(e.target.value);
-  };
+  // // Update input field
+  // const handleChange = (e) => {
+  //   setLocation(e.target.value);
+  // };
 
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Get data from IPGElocation - sunset date and time + latitude and longitude
+    // Get data from IP Geoocation - sunset date and time + latitude and longitude
     const data = await getSunsetTime(location);
 
     setSunsetTime({
@@ -73,13 +69,12 @@ const Home = () => {
 
     passCoordinates(lat, long);
 
-    setCoordinates(data.lat, data.long);
-
     // Get data from Timezone DB - local time of the selected city
     const localTime = await getLocalTime(lat, long);
     setLocalTime(localTime);
 
-    // await getBackgroundImg();
+    // Redirect to location page
+    history.push(`/location/${location}`);
   };
 
   return (
@@ -103,14 +98,17 @@ const Home = () => {
               placeholder="Type in a city and press Enter"
             />
           </form>
-          <p>Sunset in {location}</p>
+          {/* <p>Sunset in {location} in</p>
           {remainingTime && (
-            <p>
+            <h2>
               {remainingTime.hours}:{remainingTime.minutes}:
               {remainingTime.seconds}
-            </p>
+            </h2>
           )}
-          <p>At {sunsetTime.sunsetTime} local time</p>
+          <p>
+            At {sunsetTime.sunsetTime}, {sunsetTime.sunsetDate} local time
+          </p>
+          <p>Local time: {localTime}</p> */}
         </div>
       </div>
     </section>

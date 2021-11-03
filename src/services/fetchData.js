@@ -24,7 +24,7 @@ export const getSunsetTime = async (location) => {
 
 export const getLocalTime = async (lat, long) => {
   const apiKey = `II60YTR24QZC`;
-  const url = `http://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${long}`;
+  const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${long}`;
   try {
     const response = await axios.get(url);
     const localTime = response.data.formatted;
