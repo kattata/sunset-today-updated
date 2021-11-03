@@ -8,27 +8,20 @@ import {
 } from "../../services/fetchData";
 import "./home.scss";
 
-const defaultRemainingTime = {
-  hours: "00",
-  minutes: "00",
-  seconds: "00",
-};
-
 const Home = ({
   handleChange,
   location,
-  remainingTime,
-  sunsetTime,
-  localTime,
   setLocalTime,
   setSunsetTime,
   passRandomImg,
+  setLoading,
 }) => {
   const history = useHistory();
 
   // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     // Get data from IP Geoocation - sunset date and time + latitude and longitude
     const data = await getSunsetTime(location);
@@ -52,6 +45,8 @@ const Home = ({
 
     const img = await getBackgroundImg();
     passRandomImg(img);
+
+    setLoading(false);
   };
 
   return (

@@ -26,6 +26,7 @@ export const getRemainingTime = async (today, sunset) => {
       hours: "00",
       minutes: "00",
       seconds: "00",
+      hasPassed: true,
     };
   }
 
@@ -33,6 +34,7 @@ export const getRemainingTime = async (today, sunset) => {
     hours: getHours(distance),
     minutes: getMinutes(distance),
     seconds: getSeconds(distance),
+    hasPassed: false,
   };
 
   return countdown;

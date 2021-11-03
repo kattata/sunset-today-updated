@@ -12,6 +12,7 @@ const defaultRemainingTime = {
   hours: "00",
   minutes: "00",
   seconds: "00",
+  hasPassed: true,
 };
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
   const [localTime, setLocalTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
   const [randomImg, setRandomImg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Countdown
   useEffect(() => {
@@ -49,6 +51,7 @@ const App = () => {
     setLocation(e.target.value);
   };
 
+  // Retrieve Unsplash image from handleSubmit
   const passRandomImg = (img) => {
     setRandomImg(img);
   };
@@ -67,6 +70,7 @@ const App = () => {
               setLocalTime={setLocalTime}
               setSunsetTime={setSunsetTime}
               passRandomImg={passRandomImg}
+              setLoading={setLoading}
             />
           </Route>
           <Route exact path="/location/:location">
@@ -75,6 +79,8 @@ const App = () => {
               sunsetTime={sunsetTime}
               localTime={localTime}
               randomImg={randomImg}
+              loading={loading}
+              setRemainingTime={setRemainingTime}
             />
           </Route>
         </Switch>

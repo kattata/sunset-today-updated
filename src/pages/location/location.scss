@@ -1,4 +1,16 @@
 .location {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    color: white;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
+
   .random-bg {
     position: absolute;
     top: 0;
@@ -7,5 +19,28 @@
     width: 100vw;
     height: 100vh;
     object-fit: cover;
+    filter: brightness(0.5);
+  }
+
+  .sunset-info {
+    width: max-content;
+    text-align: center;
+  }
+
+  .back-btn {
+    position: absolute;
+    left: 50px;
+    top: 50px;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    border: none;
+    font-family: "Questrial";
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .missed-msg {
+    margin-bottom: 30px;
   }
 }
