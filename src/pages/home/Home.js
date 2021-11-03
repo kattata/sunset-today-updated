@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getRemainingTime, passCoordinates } from "../../services/helpers";
-import { getSunsetTime, getLocalTime } from "../../services/fetchData";
+import {
+  getSunsetTime,
+  getLocalTime,
+  getBackgroundImg,
+} from "../../services/fetchData";
 import "./home.scss";
 
 const defaultRemainingTime = {
@@ -18,39 +22,9 @@ const Home = ({
   localTime,
   setLocalTime,
   setSunsetTime,
+  passRandomImg,
 }) => {
   const history = useHistory();
-  // const [location, setLocation] = useState("");
-  // const [sunsetTime, setSunsetTime] = useState({
-  //   sunsetDate: null,
-  //   sunsetTime: null,
-  // });
-  // const [localTime, setLocalTime] = useState(null);
-  // const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
-
-  // // Countdown;
-  // useEffect(() => {
-  //   if (sunsetTime.sunsetTime !== null) {
-  //     const interval = setInterval(() => {
-  //       updateRemainingTime();
-  //     }, 1000);
-  //     return () => clearInterval(interval);
-  //   }
-  // });
-
-  // const updateRemainingTime = async () => {
-  //   const countdown = await getRemainingTime(
-  //     sunsetTime.sunsetDate,
-  //     sunsetTime.sunsetTime
-  //   );
-
-  //   setRemainingTime(countdown);
-  // };
-
-  // // Update input field
-  // const handleChange = (e) => {
-  //   setLocation(e.target.value);
-  // };
 
   // Handle submit
   const handleSubmit = async (e) => {
@@ -75,6 +49,9 @@ const Home = ({
 
     // Redirect to location page
     history.push(`/location/${location}`);
+
+    const img = await getBackgroundImg();
+    passRandomImg(img);
   };
 
   return (
@@ -98,17 +75,6 @@ const Home = ({
               placeholder="Type in a city and press Enter"
             />
           </form>
-          {/* <p>Sunset in {location} in</p>
-          {remainingTime && (
-            <h2>
-              {remainingTime.hours}:{remainingTime.minutes}:
-              {remainingTime.seconds}
-            </h2>
-          )}
-          <p>
-            At {sunsetTime.sunsetTime}, {sunsetTime.sunsetDate} local time
-          </p>
-          <p>Local time: {localTime}</p> */}
         </div>
       </div>
     </section>

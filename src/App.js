@@ -22,6 +22,7 @@ const App = () => {
   });
   const [localTime, setLocalTime] = useState(null);
   const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
+  const [randomImg, setRandomImg] = useState("");
 
   // Countdown
   useEffect(() => {
@@ -48,33 +49,9 @@ const App = () => {
     setLocation(e.target.value);
   };
 
-  // Handle submit
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // Get data from IP Geoocation - sunset date and time + latitude and longitude
-  //   const data = await getSunsetTime(location);
-
-  //   setSunsetTime({
-  //     sunsetDate: data.date,
-  //     sunsetTime: data.sunset,
-  //   });
-
-  //   const lat = data.lat;
-  //   const long = data.long;
-
-  //   passCoordinates(lat, long);
-
-  //   // Get data from Timezone DB - local time of the selected city
-  //   const localTime = await getLocalTime(lat, long);
-  //   setLocalTime(localTime);
-
-  //   // Redirect to location page
-  //   if (location) {
-  //     history.push(`/location/${location}`);
-  //     // console.log(location);
-  //   }
-  // };
+  const passRandomImg = (img) => {
+    setRandomImg(img);
+  };
 
   return (
     <div className="App">
@@ -89,6 +66,7 @@ const App = () => {
               location={location}
               setLocalTime={setLocalTime}
               setSunsetTime={setSunsetTime}
+              passRandomImg={passRandomImg}
             />
           </Route>
           <Route exact path="/location/:location">
@@ -96,6 +74,7 @@ const App = () => {
               remainingTime={remainingTime}
               sunsetTime={sunsetTime}
               localTime={localTime}
+              randomImg={randomImg}
             />
           </Route>
         </Switch>
