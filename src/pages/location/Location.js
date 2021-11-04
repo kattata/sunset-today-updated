@@ -1,3 +1,4 @@
+import arrow from "../../assets/left-arrow.svg";
 import { useParams } from "react-router";
 import { useHistory } from "react-router-dom";
 import "./location.scss";
@@ -22,14 +23,44 @@ const Location = ({
     });
   };
 
+  const formatSunsetDate = (date) => {
+    const year = date.slice(0, 4);
+    const month = date.slice(5, 7);
+    const day = date.slice(8, 10);
+    return {
+      day,
+      month,
+      year,
+    };
+  };
+
+  const formattedSunsetTime = formatSunsetDate(sunsetTime.sunsetDate);
+
+  const formatLocalTime = (date) => {
+    const year = date.slice(0, 4);
+    const month = date.slice(5, 7);
+    const day = date.slice(8, 10);
+    const hours = date.slice(11, 13);
+    const minutes = date.slice(14, 16);
+    return {
+      day,
+      month,
+      year,
+      hours,
+      minutes,
+    };
+  };
+
+  const formattedLocalTime = formatLocalTime(localTime);
+
   return (
     <section className="location">
       <button onClick={goBack} className="back-btn">
+        <img src={arrow} alt="left arrow" />
         Back
       </button>
       <img src={randomImg} alt="random img" className="random-bg" />
-      <div className="sunset-info">
-        <p>Sunset in {location} in</p>
+      <div className="countdown-info">
         {!loading ? (
           <h1>
             {remainingTime.hours}:{remainingTime.minutes}:
@@ -38,15 +69,23 @@ const Location = ({
         ) : (
           <h1>Loading...</h1>
         )}
+        <p>Until sunset in {location}</p>
         {remainingTime.hasPassed && (
           <p className="missed-msg">
             Sorry, you missed it. Come back tomorrow!
           </p>
         )}
+      </div>
+      <div className="location-info">
         <p>
-          At {sunsetTime.sunsetTime}, {sunsetTime.sunsetDate} local time
+          Local time: {formattedLocalTime.hours}:{formattedLocalTime.minutes},{" "}
+          {formattedLocalTime.day}/{formattedLocalTime.month}/
+          {formattedLocalTime.year}
         </p>
-        <p>Local time: {localTime}</p>
+        <p>
+          Sunset time: {sunsetTime.sunsetTime}, {formattedSunsetTime.day}/
+          {formattedSunsetTime.month}/{formattedSunsetTime.year}
+        </p>
       </div>
     </section>
   );

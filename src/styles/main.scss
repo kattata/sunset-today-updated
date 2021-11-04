@@ -1,24 +1,10 @@
 @import "background";
+@import "global";
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-
-// VARIABLES
-$coral: #ff8967;
-$red: #fd6051;
-
-// FONTS
-@font-face {
-  font-family: "Chromate";
-  src: url("../assets/Chromate-Regular.otf") format("opentype");
-}
-
-@font-face {
-  font-family: "Questrial";
-  src: url("../assets/Questrial-Regular.ttf") format("truetype");
 }
 
 h1 {
