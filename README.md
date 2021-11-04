@@ -18,5 +18,10 @@
 3. Use the longitude and latitude to fetch the local time of the location
 4. When the sunset time is set, start running an interval which updates the countdown
     + Substract the time of the "local now" from the sunset in miliseconds (both the day and the time need to be fetched from the API since it may vary due to the timezone differences - in some cases the sunset is "tomorrow" from our perspective)
-    + Convert the difference into hours, minutes and seconds
+    + Convert the difference into hours, minutes and seconds in a correct double-digit format
+5. Fetch a an image with a query of 'sunset' from Unsplash API and display it as the background each time the location page is rendered
 
+## To do
+- Add more information about the queried location (map, description, etc.) to confirm that the API grabbed the correct place
+- Fix the loader - after resubmitting you can see the previous countdown for a second
+- Fix refresh - after refreshing the location page, the data disappears
