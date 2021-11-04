@@ -58,15 +58,18 @@ const convertLocalTimeToMS = async (lat, long) => {
 
 const getSeconds = (distance) => {
   let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  return seconds;
+  const s = seconds < 10 ? "0" + seconds : seconds;
+  return s;
 };
 
 const getMinutes = (distance) => {
   let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  return minutes;
+  const m = minutes < 10 ? "0" + minutes : minutes;
+  return m;
 };
 
 const getHours = (distance) => {
   let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  return hours;
+  const h = hours < 10 ? "0" + hours : hours;
+  return h;
 };

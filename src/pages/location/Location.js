@@ -1,6 +1,4 @@
 import { useParams } from "react-router";
-import { useState, useEffect } from "react";
-import { getBackgroundImg } from "../../services/fetchData";
 import { useHistory } from "react-router-dom";
 import "./location.scss";
 
@@ -23,8 +21,6 @@ const Location = ({
       seconds: "00",
     });
   };
-
-  console.log(randomImg);
 
   return (
     <section className="location">

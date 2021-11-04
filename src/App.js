@@ -2,11 +2,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Home from "./pages/home/Home";
 import Location from "./pages/location/Location";
 import "./styles/main.scss";
-import { useHistory } from "react-router-dom";
-
 import React, { useState, useEffect } from "react";
-import { getRemainingTime, passCoordinates } from "./services/helpers";
-import { getSunsetTime, getLocalTime } from "./services/fetchData";
+import { getRemainingTime } from "./services/getRemainingTime";
 
 const defaultRemainingTime = {
   hours: "00",
