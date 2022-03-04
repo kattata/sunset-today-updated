@@ -22,6 +22,6 @@
 5. Fetch a an image with a query of 'sunset' from Unsplash API and display it as the background each time the location page is rendered
 
 ## To do
-- Add more information about the queried location (map, description, etc.) to confirm that the API grabbed the correct place
-- Fix the loader - after resubmitting you can see the previous countdown for a second
-- Fix refresh - after refreshing the location page, the data disappears
+- [ ] Add more information about the queried location (map, description, etc.) to confirm that the API grabbed the correct place
+- [ ] Fix the loader - after resubmitting you can see the previous countdown for a second
+- [ ] Fix refresh - after refreshing the location page, the data disappears
