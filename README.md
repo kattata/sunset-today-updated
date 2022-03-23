@@ -1,6 +1,6 @@
 # Sunset Today
 - Personal project
-- A web app, which allows you to check how much time is left until the today's sunset. It adjusts to the timezone of the search, meaning you'll always see the correct countdown
+- A web app, which allows you to check how much time is left until today's sunset. It adjusts to the timezone of the search, meaning you'll always see the correct countdown
 - Stack: React, SCSS, Moment.js
 - APIs
   - IP Geolocation Astronomy - fetches sunset time and coordinates of the queried location
