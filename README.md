@@ -8,9 +8,6 @@
   - Unsplash - fetches random images related to the query (used for the background, which changes on refresh)
 
 ## [View project](https://sunset-today.netlify.app/)
-*If the app doesn't run correctly, try enabling 'insecure content' in Google Chrome. This issue might appear due to mixed content (one of the APIs)*
-
-![Webp net-resizeimage (2)](https://user-images.githubusercontent.com/55578863/139928311-96c34778-77f1-4a4b-ae95-b2c98e7d85e3.png)
 
 ## Code breakdown
 1. Save the query (city) in a useState hook
